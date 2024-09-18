@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Set display surface
 pygame.init()
@@ -61,6 +62,27 @@ game_over_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 continue_text = font.render("Press any key to play again", True, GREEN, DARKGREEN)
 continue_rect = continue_text.get_rect()
 continue_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 32)
+
+# Set the sound and music
+coin_sound = pygame.mixer.Sound('assets/coin_sound.wav')
+miss_sound = pygame.mixer.Sound('assets/miss_sound.wav')
+miss_sound.set_volume(0.1)
+pygame.mixer.music.load('assets/ftd_background_music.wav')
+
+# Set the images
+player_image = pygame.image.load("assets/dragon_right.png")
+player_rect = player_image.get_rect()
+player_rect.left = 32
+player_rect.centery = WINDOW_HEIGHT // 2
+
+coin_image = pygame.image.load("assets/coin.png")
+coin_rect = coin_image.get_rect()
+coin_rect.x = WINDOW_WIDTH + BUFFER_DISTANCE
+coin_rect.y = random.randint(64, WINDOW_HEIGHT - 32)
+
+pygame.mixer.music.play(-1, 0.0)
+
+
 # The main game loop
 running = True
 while running:
@@ -74,6 +96,9 @@ while running:
     display_surface.blit(score_text, score_rect)
     display_surface.blit(title_text, title_rect)
     display_surface.blit(lives_text, lives_rect)
+    display_surface.blit(player_image, player_rect)
+    display_surface.blit(coin_image, coin_rect)
+
 
     #Update display and tick the clock
     pygame.display.update()
